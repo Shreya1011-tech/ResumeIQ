@@ -1,0 +1,17 @@
+ 
+# Build files
+*.exe
+*.o
+*.obj
+
+# Output folders
+build/
+output/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# MSYS / MINGW (IMPORTANT)
+msys64/
+mingw64/

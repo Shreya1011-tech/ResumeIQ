@@ -1,0 +1,11 @@
+Rohan
+
+Email: rohan@gmail.com
+
+I have 2 years of experience in backend development.
+
+Worked with Python, SQL, Django, APIs.
+
+Completed 3 projects.
+
+Certifications: 1

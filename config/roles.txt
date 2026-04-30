@@ -1,0 +1,26 @@
+backend developer:
+python
+dsa
+sql
+api
+
+frontend developer:
+html
+css
+javascript
+react
+
+software developer:
+dsa
+oops
+c++
+python
+
+full stack engineer:
+html
+css
+javascript
+react
+node
+sql
+api

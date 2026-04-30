@@ -1,0 +1,15 @@
+===== RESUME ANALYSIS REPORT =====
+
+Name: Rohan
+Email: rohan@gmail.com
+
+Skills: python, sql, 
+
+Score: 60%
+
+Matched Skills: python, sql, 
+Missing Skills: dsa, api, 
+
+Suggestions:
+1. Learn dsa
+2. Learn api

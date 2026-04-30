@@ -1,0 +1,8 @@
+python django
+django api
+html css
+css javascript
+javascript react
+react node
+node api
+sql postgresql

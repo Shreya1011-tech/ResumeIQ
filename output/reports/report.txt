@@ -5,11 +5,16 @@ Email: rohan@gmail.com
 
 Skills: python, sql, 
 
-Score: 60%
+Score: 35%
 
-Matched Skills: python, sql, 
-Missing Skills: dsa, api, 
+Matched Skills: 
+Missing Skills: Node.js, Express, SQL, MongoDB, REST API, Python, Git, 
 
 Suggestions:
-1. Learn dsa
-2. Learn api
+1. Learn Node.js
+2. Learn Express
+3. Learn SQL
+4. Learn MongoDB
+5. Learn REST API
+6. Learn Python
+7. Learn Git

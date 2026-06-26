@@ -6,9 +6,10 @@
 #include "analyzer.h"
 #include "scoring.h"
 #include "../utils/utils.h"
+#include "../libs/json.hpp"  
 
 using namespace std;
-
+using json = nlohmann::json;  //used for reading json file
 // -----------------------------
 // Helper: lowercase a string
 // -----------------------------
@@ -16,35 +17,46 @@ using namespace std;
 // Load skills for a given role
 // -----------------------------
 vector<string> getRoleSkills(string role) {
-    ifstream file("config/roles.txt");
-    string line;
-    vector<string> skills;
-    bool found = false;
 
-    role = toLower(role); // lowercase role for comparison
+    // Step 1: Normalize input
+    role = toLower(role);
 
-    while (getline(file, line)) {
-        // Trim whitespace
-        line.erase(0, line.find_first_not_of(" \t"));
-        line.erase(line.find_last_not_of(" \t") + 1);
+    // Step 2: Open JSON file
+    ifstream file("config/roles.json");
 
-        string lowerLine = toLower(line);
-
-        // Check for role header
-        if (lowerLine == role + ":") {
-            found = true;
-            continue;
-        }
-
-        // After role header, collect skills until empty line or new role
-        if (found) {
-            if (line.empty() || line.find(":") != string::npos)
-                break;
-            skills.push_back(toLower(line));
-        }
+    // Step 3: Check file opened
+    if (!file.is_open()) {
+        cout << "Error: config/roles.json not found!\n";
+        return {};
     }
 
-    file.close();
+    // Step 4: Parse JSON
+    json data;
+    try {
+        data = json::parse(file);
+    }
+    catch (json::parse_error& e) {
+        cout << "Error reading roles.json: " << e.what() << "\n";
+        return {};
+    }
+
+    // Step 5: Check role exists
+    if (data.find(role) == data.end()) {
+        cout << "Role not found: " << role << "\n";
+        cout << "Available roles:\n";
+        for (auto& item : data.items()) {
+            cout << "  - " << item.key() << "\n";
+        }
+        return {};
+    }
+
+    // Step 6: Extract and return skills
+    vector<string> skills;
+    for (string skill : data[role]) {
+        skills.push_back(skill);
+    }
+cout << "DEBUG: Found " << skills.size() << " skills for role: " << role << "\n";
+
     return skills;
 }
 

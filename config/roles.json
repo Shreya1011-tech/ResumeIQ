@@ -1,0 +1,26 @@
+{
+    "data engineer": [
+        "Python", "SQL", "Spark", "Hadoop", 
+        "Airflow", "Kafka", "Hive"
+    ],
+    "frontend developer": [
+        "HTML", "CSS", "JavaScript", "React", 
+        "TypeScript", "Redux", "Git"
+    ],
+    "backend developer": [
+        "Node.js", "Express", "SQL", "MongoDB", 
+        "REST API", "Python", "Git"
+    ],
+    "ml engineer": [
+        "Python", "TensorFlow", "PyTorch", 
+        "Pandas", "NumPy", "Scikit-learn", "Statistics"
+    ],
+    "devops engineer": [
+        "Linux", "Docker", "Kubernetes", 
+        "Jenkins", "AWS", "Git", "Bash"
+    ],
+    "android developer": [
+        "Java", "Kotlin", "Android SDK", 
+        "XML", "Firebase", "Git", "REST API"
+    ]
+}

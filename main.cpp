@@ -3,7 +3,8 @@
 #include <vector>
 #include <string>
 #include <sys/stat.h>   // for _mkdir
-#include <direct.h>     // Windows _mkdir
+#include <direct.h> 
+#include <limits>    // Windows _mkdir
 #include "menu/menu.h"
 #include "parser/parser.h"
 #include "ds/trie.h"
@@ -46,6 +47,7 @@ int main() {
             cout << "Enter role to analyze against: ";
             cin.ignore(); // ignore leftover newline
             getline(cin, role);
+             cin.clear(); 
 
             // Parse resume into Candidate object
             Candidate c = parseResume(filename);
@@ -66,6 +68,7 @@ int main() {
             // Analyze and generate suggestions
             // -----------------------------
             AnalysisResult res = analyze(c, role);
+            if (res.score == 0 && res.matched.empty() && res.missing.empty()) { continue;}  // goes back to while loop top = shows menu again
             vector<string> suggestions = generateSuggestions(c, res);
 
             // -----------------------------

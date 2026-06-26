@@ -1,26 +1,12 @@
 {
-    "data engineer": [
-        "Python", "SQL", "Spark", "Hadoop", 
-        "Airflow", "Kafka", "Hive"
-    ],
-    "frontend developer": [
-        "HTML", "CSS", "JavaScript", "React", 
-        "TypeScript", "Redux", "Git"
-    ],
-    "backend developer": [
-        "Node.js", "Express", "SQL", "MongoDB", 
-        "REST API", "Python", "Git"
-    ],
-    "ml engineer": [
-        "Python", "TensorFlow", "PyTorch", 
-        "Pandas", "NumPy", "Scikit-learn", "Statistics"
-    ],
-    "devops engineer": [
-        "Linux", "Docker", "Kubernetes", 
-        "Jenkins", "AWS", "Git", "Bash"
-    ],
-    "android developer": [
-        "Java", "Kotlin", "Android SDK", 
-        "XML", "Firebase", "Git", "REST API"
-    ]
+    "backend developer": ["python", "dsa", "sql", "api", "nodejs", "mongodb", "git"],
+    "frontend developer": ["html", "css", "javascript", "react", "typescript", "git", "redux"],
+    "software developer": ["dsa", "oops", "c++", "python", "git", "sql"],
+    "full stack engineer": ["html", "css", "javascript", "react", "nodejs", "sql", "api", "git"],
+    "data engineer": ["python", "sql", "spark", "hadoop", "airflow", "kafka", "hive"],
+    "ml engineer": ["python", "tensorflow", "pytorch", "pandas", "numpy", "scikit-learn", "statistics"],
+    "devops engineer": ["linux", "docker", "kubernetes", "jenkins", "aws", "git", "bash"],
+    "android developer": ["java", "kotlin", "android sdk", "xml", "firebase", "git", "rest api"],
+    "cyber security engineer":["networking","linux","python","ethical hacking","cryptography","firewalls"]
+
 }

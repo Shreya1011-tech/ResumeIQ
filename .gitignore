@@ -15,3 +15,7 @@ Thumbs.db
 # MSYS / MINGW (IMPORTANT)
 msys64/
 mingw64/
+
+.env
+libs/json.hpp
+*.exe

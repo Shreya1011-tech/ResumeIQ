@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include<fstream>
 #include <vector>
@@ -11,6 +12,8 @@
 #include "utils/utils.h"
 #include "analyzer/analyzer.h"
 #include "ds/graph.h"
+#include "ds/edit_distance.h" 
+#include "ai/ai_suggestions.h"
 
 using namespace std;
 
@@ -24,6 +27,26 @@ void createFolder(const char* folderName) {
         _mkdir(folderName);               // create folder
     }
 }
+// Paste this directly in main.cpp above int main()
+string findClosestSkill(string input, vector<string> knownSkills) {
+    string closest = "";
+    int minDist = INT_MAX;
+    for (string skill : knownSkills) {
+        int m = input.length(), n = skill.length();
+        vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
+        for (int i = 0; i <= m; i++) dp[i][0] = i;
+        for (int j = 0; j <= n; j++) dp[0][j] = j;
+        for (int i = 1; i <= m; i++)
+            for (int j = 1; j <= n; j++)
+                dp[i][j] = (input[i-1]==skill[j-1]) ? dp[i-1][j-1] :
+                    1 + min({dp[i-1][j], dp[i][j-1], dp[i-1][j-1]});
+        int dist = dp[m][n];
+        if (dist < minDist) { minDist = dist; closest = skill; }
+    }
+    return (minDist <= 2) ? closest : "";
+}
+
+
 
 int main() {
     int choice;
@@ -58,9 +81,25 @@ int main() {
             Trie trie;
             loadSkills(trie);  // loads all role skills into trie
             vector<string> filteredSkills;
+            vector<string> allKnownSkills = getRoleSkills(role);
 
-            for (auto s : c.skills)
-                if (trie.search(s)) filteredSkills.push_back(s);
+            for (auto s : c.skills) {
+            string normalized = toLower(s);
+
+            if (trie.search(normalized)) {
+        // Exact match — add directly
+            filteredSkills.push_back(normalized);
+    }
+             else {
+        // Try fuzzy match using Edit Distance
+            string closest = findClosestSkill(normalized, allKnownSkills);
+             if (closest != "") {
+            cout << "  Note: '" << s << "' interpreted as '" << closest << "'\n";
+            filteredSkills.push_back(closest);
+        }
+    }
+}
+            
 
             c.skills = filteredSkills;
 
@@ -104,6 +143,13 @@ int main() {
             cout << "\n===== SUGGESTIONS =====\n";
             int i = 1;
             for (auto s : suggestions) cout << i++ << ". " << s << "\n";
+            
+            // AI-powered suggestions
+            cout << "\n===== AI-POWERED LEARNING PATH =====\n";
+            cout << "Generating personalized suggestions...\n";
+            string aiOutput = getAISuggestions(role, res.matched, res.missing);
+            cout << aiOutput << "\n";
+
 
             // -----------------------------
             // Save report & history
@@ -154,4 +200,4 @@ int main() {
             cout << "Invalid choice! Try again.\n";
         }
     }
-}
+};

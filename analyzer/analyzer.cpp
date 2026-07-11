@@ -47,7 +47,10 @@ vector<string> getRoleSkills(string role) {
         for (auto& item : data.items()) {
             cout << "  - " << item.key() << "\n";
         }
-        return {};
+        cout << "\nPress Enter to return to menu...\n";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.get();
+    return {};
     }
 
     // Step 6: Extract and return skills
@@ -55,7 +58,7 @@ vector<string> getRoleSkills(string role) {
     for (string skill : data[role]) {
         skills.push_back(skill);
     }
-cout << "DEBUG: Found " << skills.size() << " skills for role: " << role << "\n";
+
 
     return skills;
 }

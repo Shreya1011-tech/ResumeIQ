@@ -12,7 +12,7 @@ struct AnalysisResult {
 };
 
 AnalysisResult analyze(Candidate &c, string role);
-
+vector<string> getRoleSkills(string role); 
 
 vector<string> generateSuggestions(Candidate &c, AnalysisResult &res);
 

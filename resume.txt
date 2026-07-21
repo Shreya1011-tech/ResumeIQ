@@ -4,7 +4,7 @@ Email: rohan@gmail.com
 
 I have 2 years of experience in backend development.
 
-Worked with Python, SLQ, Django, APIs.
+Worked with Pythn, SQL, Django, APIs.
 
 Completed 3 projects.
 

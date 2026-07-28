@@ -118,24 +118,26 @@ static string httpPost(const string& apiKey, const string& body) {
 
 string getAISuggestions(string role,
                          vector<string> matched,
-                         vector<string> missing) {
+                         vector<string> missing,
+                         int experience) {
 
     if (missing.empty())
-        return "Great! You match all required skills.";
+        return "  You match all required skills for this role!";
 
     string apiKey = getEnvValue("GROQ_API_KEY");
     if (apiKey.empty())
-        return "AI unavailable: API key not found in .env";
+        return "  AI unavailable: API key not found.";
 
-    // Build prompt
-     stringstream prompt;
-prompt << "Role: " << role << ". ";
-prompt << "Missing skills: ";
-for (auto s : missing) prompt << s << ", ";
-prompt << "Give exactly 3 numbered tips to learn these skills for this role. ";
-prompt << "Each tip is one sentence only. Plain text. No markdown. No asterisks.";
-
-
+    stringstream prompt;
+    prompt << "Candidate applying for " << role << " role. ";
+    prompt << "Already knows: ";
+    for (auto s : matched) prompt << s << ", ";
+    prompt << "Has " << experience << " year(s) experience. ";
+    prompt << "Missing skills: ";
+    for (auto s : missing) prompt << s << ", ";
+    prompt << "Give exactly 3 tips. Use their existing skills as foundation. ";
+    prompt << "Each tip maximum 2 sentences. Plain text. Number them 1. 2. 3.";
+    prompt << "Keep each tip under 40 words. No platform names. Focus on approach only.";
 // Build JSON body
     string body = "{";
     body += "\"model\":\"llama-3.1-8b-instant\",";
@@ -143,7 +145,7 @@ prompt << "Each tip is one sentence only. Plain text. No markdown. No asterisks.
     body += "{\"role\":\"system\",\"content\":\"You are a career advisor. Give practical structured advice.\"},";
     body += "{\"role\":\"user\",\"content\":\"" + escapeJSON(prompt.str()) + "\"}";
     body += "],";
-    body += "\"max_tokens\":150,";
+    body += "\"max_tokens\":250,";
     body += "\"temperature\":0.7}";
 
     // Make API call

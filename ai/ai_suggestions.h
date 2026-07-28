@@ -5,9 +5,8 @@
 #include <vector>
 using namespace std;
 
-// Declared here — defined in ai_suggestions.cpp
 string getAISuggestions(string role,
                          vector<string> matched,
-                         vector<string> missing);
-
+                         vector<string> missing,
+                         int experience);
 #endif

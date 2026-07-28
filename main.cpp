@@ -27,24 +27,6 @@ void createFolder(const char* folderName) {
         _mkdir(folderName);               // create folder
     }
 }
-// Paste this directly in main.cpp above int main()
-string findClosestSkill(string input, vector<string> knownSkills) {
-    string closest = "";
-    int minDist = INT_MAX;
-    for (string skill : knownSkills) {
-        int m = input.length(), n = skill.length();
-        vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
-        for (int i = 0; i <= m; i++) dp[i][0] = i;
-        for (int j = 0; j <= n; j++) dp[0][j] = j;
-        for (int i = 1; i <= m; i++)
-            for (int j = 1; j <= n; j++)
-                dp[i][j] = (input[i-1]==skill[j-1]) ? dp[i-1][j-1] :
-                    1 + min({dp[i-1][j], dp[i][j-1], dp[i-1][j-1]});
-        int dist = dp[m][n];
-        if (dist < minDist) { minDist = dist; closest = skill; }
-    }
-    return (minDist <= 2) ? closest : "";
-}
 
 
 
@@ -94,7 +76,7 @@ int main() {
         // Try fuzzy match using Edit Distance
             string closest = findClosestSkill(normalized, allKnownSkills);
              if (closest != "") {
-            cout << "  Note: '" << s << "' interpreted as '" << closest << "'\n";
+            
             filteredSkills.push_back(closest);
         }
     }
@@ -102,61 +84,57 @@ int main() {
             
 
             c.skills = filteredSkills;
+        // Analyze
+AnalysisResult res = analyze(c, role);
+if (res.score == 0 && res.matched.empty() && res.missing.empty()) {
+    continue;
+}
+vector<string> suggestions = generateSuggestions(c, res);
 
-            // -----------------------------
-            // Analyze and generate suggestions
-            // -----------------------------
-            AnalysisResult res = analyze(c, role);
-            if (res.score == 0 && res.matched.empty() && res.missing.empty()) { continue;}  // goes back to while loop top = shows menu again
-            vector<string> suggestions = generateSuggestions(c, res);
+// ================================
+// CLEAN OUTPUT
+// ================================
+   cout << "\n";
+cout << "========================================\n";
+cout << "         RESUME ANALYSIS REPORT         \n";
+cout << "========================================\n";
 
-            // -----------------------------
-            // Terminal Output (Pretty)
-            // -----------------------------
-            cout << "\n===== PARSED RESUME =====\n";
-            cout << "Name: " << c.name << "\n";
-            cout << "Email: " << c.email << "\n";
-            cout << "Skills: ";
-            for (auto s : c.skills) cout << s << ", ";
-            cout << "\nExperience: " << c.experience;
-            cout << "\nProjects: " << c.projects;
-            cout << "\nCertifications: " << c.certifications << "\n";
+cout << "\n>> CANDIDATE\n";
+cout << "   Name    : " << c.name << "\n";
+cout << "   Email   : " << c.email << "\n";
+cout << "   Role    : " << role << "\n";
 
-            cout << "\n===== ANALYSIS =====\n";
-            cout << "Score: " << res.score << "%\n";
-            cout << "Matched Skills: ";
-            for (auto s : res.matched) cout << s << ", ";
-            cout << "\nMissing Skills: ";
-            for (auto s : res.missing) cout << s << ", ";
+cout << "\n>> MATCH SCORE\n";
+int score=res.score;
+cout << "   " << score << "% [";
+int filled = score / 5;
+for (int i = 0; i < 20; i++)
+    cout << (i < filled ? "#" : "-");
+cout << "]\n";
 
-            // -----------------------------
-            // Learning Path from Skill Graph
-            // -----------------------------
-            cout << "\n\n===== LEARNING PATH =====\n";
-            Graph g;
-            loadGraph(g);
-            g.printPath(c.skills, res.missing); // prints: skill1 -> skill2 -> ...
+cout << "\n>> MATCHED SKILLS\n   ";
+for (auto s : res.matched) cout << "[" << s << "] ";
+cout << "\n";
 
-            // -----------------------------
-            // Suggestions
-            // -----------------------------
-            cout << "\n===== SUGGESTIONS =====\n";
-            int i = 1;
-            for (auto s : suggestions) cout << i++ << ". " << s << "\n";
-            
-            // AI-powered suggestions
-            cout << "\n===== AI-POWERED LEARNING PATH =====\n";
-            cout << "Generating personalized suggestions...\n";
-            string aiOutput = getAISuggestions(role, res.matched, res.missing);
-            cout << aiOutput << "\n";
+cout << "\n>> MISSING SKILLS\n   ";
+for (auto s : res.missing) cout << "[" << s << "] ";
+cout << "\n";
 
+cout << "\n>> PROFILE\n";
+cout << "   Experience    : " << c.experience << " year(s)\n";
+cout << "   Projects      : " << c.projects << "\n";
+cout << "   Certifications: " << c.certifications << "\n";
 
-            // -----------------------------
-            // Save report & history
-            // -----------------------------
-            saveReport(c, res, suggestions);
-            saveHistory(c, res.score);
-            cout << "\nReport saved successfully!\n";
+cout << "\n>> PERSONALIZED SUGGESTIONS\n";
+cout << "   ------------------------------------\n";
+string aiOutput = getAISuggestions(role, res.matched, res.missing, c.experience);
+cout << aiOutput << "\n";
+cout << "   ------------------------------------\n";
+
+cout << "\n========================================\n";
+cout << "   Report saved to output/reports/      \n";
+cout << "========================================\n\n";
+
         }
 
         // -----------------------------

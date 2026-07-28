@@ -3,7 +3,7 @@
 Name: Rohan
 Email: rohan@gmail.com
 
-Skills: api, git, python, sql, 
+Skills: api, python, git, sql, 
 
 Score: 63%
 
